@@ -1,0 +1,4 @@
+GoT,g rr martin,ISBN2021,900,2011,
+LOTR,tolkien,ISBN2000,706,1997,
+3 silahsorler,alexandre dumas,ISBN3654,103,1784,
+beyaz,jack_london,isbn4589,210,1889,

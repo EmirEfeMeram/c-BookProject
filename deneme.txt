@@ -1,0 +1,5 @@
+emir,0,0000,
+deneme,1,0000,
+deneme2,2,1111,
+deneme0,3,0101,
+sondeneme,9999,9999,
