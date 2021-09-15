@@ -11,7 +11,103 @@
 #include <QString>
 #include <QDir>
 #include<QTextStream>
+#include<QList>
 using namespace std;
+void sort(){
+    QFile file("/home/emir/Masaüstü/openCV-exps/denemekitap.txt");
+    if(!file.open(QIODevice::ReadWrite)){
+        qCritical() << file.errorString();
+    }
+    QList<int> years={};
+    QStringList names;
+    while (!file.atEnd()) {
+       QString line = file.readLine();
+       QStringList data;
+       data = line.split(",");
+       names.append(data[0]);
+       years.append(data[4].toInt());
+    }
+
+    int idx=0;
+    for (int ind=0;ind < names.size();ind++) {
+        int smallest=100000;
+        QString eskikitap;
+        for(int i=ind;i<names.size();i++){
+
+            if (years[i]<smallest){
+                smallest=years[i];
+                eskikitap=names[i];
+                idx=i;
+            }
+        }
+        years[idx]=years[ind];
+        names[idx]=names[ind];
+        years[ind]=smallest;
+        names[ind]=eskikitap;
+
+    }
+    for(int i =0;i<names.size();i++){
+        qDebug() << "Kitap: " << names[i]  << "Yayim Yili: " << years[i];
+
+    }
+
+
+
+
+}
+void kitapsil(int idx,int lineidx,QString s){
+    QFile file1("/home/emir/Masaüstü/openCV-exps/denemekitap.txt");
+    while (!file1.atEnd()) {
+       QString line = file1.readLine();
+       qDebug() <<line;
+       if(idx==lineidx){
+           if(!line.contains("DELETE")){
+                s.append(line + "\n");
+                qDebug() << "Kitap Başarı ile Silindi";
+           }
+           else {
+               qDebug() << "Böyle Bir Kitap Yok";
+           }
+       }
+       file1.close();
+ }
+}
+void deleteKitap(){
+
+
+    QFile file("/home/emir/Masaüstü/openCV-exps/denemekitap.txt");
+    if(!file.open(QIODevice::ReadWrite)){
+        qCritical() << file.errorString();
+    }
+    QStringList booknames;
+    QString s;
+    string silkitap;
+
+    qDebug()<< "silinicek kitap ismini giriniz: ";
+    cin >> silkitap;
+    QString kitap = QString::fromUtf8(silkitap.c_str());
+    while (!file.atEnd()) {
+       QString line = file.readLine();
+       QStringList data;
+       data = line.split(",");
+       booknames.append(data[0]);}
+    file.close();
+    int i=0;
+    int idx=0;
+    for(i=0; i<booknames.size(); i++){
+
+       if(kitap==booknames[i]){
+           idx=i;
+       }
+    }
+    qDebug() << idx<< i <<booknames;
+    int lineidx=0;
+    kitapsil(idx,lineidx,s);
+
+       lineidx++;
+
+    }
+
 void displayKitap(){
     QFile file("/home/emir/Masaüstü/openCV-exps/denemekitap.txt");
     if(!file.open(QIODevice::ReadWrite)){
@@ -91,6 +187,15 @@ void library(){
             displayKitap();
             continue;
         }
+        else if (input=="d") {
+            deleteKitap();
+            continue;
+
+        }
+        else if (input=="s") {
+            sort();
+
+        }
         else if(input=="q"){
             QCoreApplication::quit();
             break;
@@ -140,44 +245,9 @@ void uyeGiris(){
        uyeOlustur();
    }
 
-   }
-
-
-
-QString writeFile(QString filename){
-    QFile file(filename);
-    if(file.open(QIODevice::ReadWrite | QIODevice::Append)){
-        QTextStream stream(&file);
-        for(int i=0;i<5;i++){
-            stream <<QString::number(i) <<"Hello world \r\n";
-        }
-        QString data = stream.readAll();
-        while (!stream.atEnd()) {
-           QString line = stream.readLine();
-           qDebug() << "read output - " << line;
-         }
-        return  data;
-    }
-
-
-    file.close();
-
 }
 
-QStringList readFile(QString filename){
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadWrite)){
-        qCritical() << file.errorString();
-    }
-    //QTextStream stream(&file);
-    //QString data = stream.readAll();
-    while (!file.atEnd()) {
-       QString line = file.readLine();
-       QStringList data;
-       data = line.split(",");
-       qDebug() << data[0];
-    }
-}
+
 int main(int argc, char *argv[])
 {
 
@@ -199,10 +269,4 @@ int main(int argc, char *argv[])
     }
 
 
-/*QFile f(...);
-if (f.open(QIODevice::WriteOnly | QIODevice::Append)) {
- while (!file.atEnd()) {
-    QByteArray line = file.readLine();
-    qDebug() << "read output - " << line;
-  }
-}*/
+
