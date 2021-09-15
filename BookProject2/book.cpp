@@ -6,20 +6,6 @@ Book::Book()
 void Book::sort(){
     file sortProcess;
     QList<QStringList> allBooks=sortProcess.readBookData();
-    /*QFile file("/home/emir/Masaüstü/openCV-exps/denemekitap.txt");
-    if(!file.open(QIODevice::ReadWrite)){
-        qCritical() << file.errorString();
-    }
-    QList<int> years={};
-    QStringList names;
-    while (!file.atEnd()) {
-       QString line = file.readLine();
-       QStringList data;
-       data = line.split(",");
-       names.append(data[0]);
-       years.append(data[4].toInt());
-    }
-    */
 
     int idx=0;
     for (int ind=0;ind < allBooks[0].size();ind++) {
